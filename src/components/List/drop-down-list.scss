@@ -1,0 +1,87 @@
+@mixin icon {
+    position: absolute;
+    top: 33%;
+    left: 70%;
+    color: #6a687e;
+    cursor: pointer;
+    height: 20px;
+    width: 20px;
+  }
+  @mixin dropitem {
+    color: black;
+    padding: 12px 16px;
+    cursor: pointer;
+    font-family: Verdana;
+    font-size: 20px;
+    text-align: left;
+  }
+  .inputContainer {
+    padding: 5px;
+    align-items: center;
+  
+    input {
+      height: 7%;
+      width: 40%;
+      position: absolute;
+      top: 30%;
+      left: 30%;
+      border-radius: 5px;
+      border-style: solid;
+      border-color: #eaecf2;
+      border-width: 3.5px;
+      font-family: Verdana;
+      font-size: 20px;
+      padding-left: 20px;
+      outline: none;
+  
+      &::placeholder {
+        color: black;
+      }
+    }
+    &.placecolor input::placeholder {
+      color: #696969;
+    }
+    .fa {
+      @include icon;
+    }
+  
+    .fa1 {
+      transform: rotate(180deg);
+      @include icon;
+    }
+  }
+  .list {
+    width: 41%;
+    position: absolute;
+    top: 38%;
+    left: 30.3%;
+    margin-top: 5px;
+    border-radius: 5px;
+    background-color: white;
+    border: 3px solid #eaecf2;
+    max-height: 170px;
+    overflow: auto;
+  
+    &::-webkit-scrollbar {
+      width: 15px;
+      min-height: 100px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background: transparent;
+      box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
+    }
+    &.is-scrolling::-webkit-scrollbar-thumb {
+      background: #747474;
+    }
+  }
+  .dropdown-item {
+    @include dropitem;
+  
+    &:hover {
+      background-color: #ececec;
+    }
+  }
+  .item {
+    background-color: #ececec;
+  }
