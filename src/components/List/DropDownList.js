@@ -1,33 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./DropDown.scss";
-
-const useKeyPress = function(targetKey) {
-  const [keyPressed, setKeyPressed] = useState(false);
-
-  function downHandler({ key }) {
-    if (key === targetKey) {
-      setKeyPressed(true);
-    }
-  }
-
-  const upHandler = ({ key }) => {
-    if (key === targetKey) {
-      setKeyPressed(false);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("keydown", downHandler);
-    window.addEventListener("keyup", upHandler);
-
-    return () => {
-      window.removeEventListener("keydown", downHandler);
-      window.removeEventListener("keyup", upHandler);
-    };
-  });
-
-  return keyPressed;
-};
+import "./drop-down-list.scss";
 
 function DropDownList( { options }){
 
@@ -39,44 +11,12 @@ function DropDownList( { options }){
     );
   };
 
-  const downPress = useKeyPress("ArrowDown");
-  const upPress = useKeyPress("ArrowUp");
-  const enterPress = useKeyPress("Enter");
   const [cursor, setCursor] = useState(0);
   const [showMenu, setShowMenu] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const inputRef = useRef();
   const listRef = useRef();
   const optionref=useRef([]);
- 
-  useEffect(() => {
-    if (options.length && downPress) {
-      setCursor(prevState => prevState < options.length - 1 ? prevState + 1 : prevState );
-      if (cursor>options.length-2);
-      else{
-        optionref.current[cursor+1].scrollIntoView();
-      }
-    }
-  }, [downPress]);
-
-  useEffect(() => {
-    if (options.length && upPress) {
-      setCursor(prevState => (prevState > 0 ? prevState - 1 : prevState));
-      if (cursor<=0);
-      else{
-        optionref.current[cursor-1].scrollIntoView();
-        //console.log(optionref.current[cursor-1]);
-      }
-    }
-  }, [upPress]);
-
-  useEffect(() => {
-    if (options.length && enterPress) {
-      inputRef.current.value=options[cursor].label;
-      setShowMenu(!showMenu);
-      setCursor(0);
-    }
-  }, [enterPress]);
    
 
     useEffect(() => {
@@ -123,7 +63,7 @@ function DropDownList( { options }){
         );
       }; 
 
-    var scrollTimer = -1;
+    let scrollTimer = -1;
     const scrollFunction  = () =>{
 
       listRef.current.classList.add("is-scrolling");
@@ -134,11 +74,34 @@ function DropDownList( { options }){
     const scrollFinished  = () => {
       listRef.current.classList.remove("is-scrolling");
     }
+
+    const handleKey = (event) =>{
+             
+        if (event.key === "ArrowDown"){
+            console.log(optionref.current[cursor+1]);
+            setCursor(prevState => prevState < options.length - 1 ? prevState + 1 : prevState );
+            if (cursor>options.length-2);
+            else
+            optionref.current[cursor+1].scrollIntoView();
+        }
+        if (event.key === "ArrowUp" ){
+            setCursor(prevState => (prevState > 0 ? prevState - 1 : prevState));
+            if (cursor<=0);
+            else
+            optionref.current[cursor-1].scrollIntoView();
+        }
+        if (event.key === "Enter"){
+           inputRef.current.value=options[cursor].label;
+           setShowMenu(!showMenu);
+           setCursor(0);
+        }
+
+    }
    
    return(
     <div className="container">
      <div className="inputContainer">
-      <input  placeholder= "type here" onChange={onSearch}  ref={inputRef} onClick={handleInputClick} />
+      <input  placeholder= "type here" onChange={onSearch}  ref={inputRef} onClick={handleInputClick} onKeyDown={handleKey} />
         <div className="icoon" >
             <Icon />
          </div>
