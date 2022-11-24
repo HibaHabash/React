@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {  useRef, useState } from "react";
 import "./drop-down-list.scss";
 
 function DropDownList( { options }){
@@ -19,18 +19,12 @@ function DropDownList( { options }){
   const optionref=useRef([]);
    
 
-    useEffect(() => {
     const handler = (e) => {
       if (inputRef.current && !inputRef.current.contains(e.target)) {
         setShowMenu(false);
         inputRef.current.placeholder="type here";
       }
     };
-    window.addEventListener("click", handler);
-    return () => {
-      window.removeEventListener("click", handler);
-    };
-    });
     
     const handleInputClick = (e) => {
         e.stopPropagation();
@@ -78,28 +72,32 @@ function DropDownList( { options }){
     const handleKey = (event) =>{
              
         if (event.key === "ArrowDown"){
-            console.log(optionref.current[cursor+1]);
             setCursor(prevState => prevState < options.length - 1 ? prevState + 1 : prevState );
-            if (cursor>options.length-2);
+            if (cursor>options.length-2){
+             setCursor(-1);
+             optionref.current[cursor].scrollIntoView(false);
+            }
             else
-            optionref.current[cursor+1].scrollIntoView();
+            optionref.current[cursor+1].scrollIntoView(false);
         }
         if (event.key === "ArrowUp" ){
             setCursor(prevState => (prevState > 0 ? prevState - 1 : prevState));
-            if (cursor<=0);
+            if (cursor<=0){
+             setCursor(options.length);
+             optionref.current[cursor].scrollIntoView(false);
+            }
             else
-            optionref.current[cursor-1].scrollIntoView();
+            optionref.current[cursor-1].scrollIntoView(false);
         }
         if (event.key === "Enter"){
            inputRef.current.value=options[cursor].label;
            setShowMenu(!showMenu);
            setCursor(0);
         }
-
     }
    
    return(
-    <div className="container">
+    <div className="container" onClick={handler}>
      <div className="inputContainer">
       <input  placeholder= "type here" onChange={onSearch}  ref={inputRef} onClick={handleInputClick} onKeyDown={handleKey} />
         <div className="icoon" >
@@ -124,7 +122,6 @@ function DropDownList( { options }){
     </div>
    );
    
-
 }
 
 export default DropDownList;
