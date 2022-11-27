@@ -107,7 +107,7 @@ function DropDownList( { options }){
         <div ref={listRef} className="list" onScroll={scrollFunction} >
           {getOptions().map((option,i) => (
             <div
-              ref={el => (optionref.current.push(el))}
+              ref={ref => (optionref.current[i] = ref)}
               onClick={() => onItemClick(option)}
               key={option.value}
               className={`dropdown-item ${cursor===i ? "item": ""}`}
