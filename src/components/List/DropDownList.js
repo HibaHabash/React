@@ -1,15 +1,9 @@
 import React, {  useRef, useState } from "react";
 import "./drop-down-list.scss";
+import Arrow from '../../assets/images/Arrow-down.svg'
 
 function DropDownList( { options }){
 
-  const Icon = () => {
-    return (
-      <svg className={showMenu ? 'fa1' : 'fa'} onClick={handleInputClick} >
-        <path d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"></path>
-      </svg>
-    );
-  };
 
   const [cursor, setCursor] = useState(0);
   const [showMenu, setShowMenu] = useState(false);
@@ -24,7 +18,7 @@ function DropDownList( { options }){
         setShowMenu(false);
         inputRef.current.placeholder="type here";
       }
-    };
+    }
     
     const handleInputClick = (e) => {
         e.stopPropagation();
@@ -36,15 +30,15 @@ function DropDownList( { options }){
         else{
           inputRef.current.placeholder="type here";
         }
-      };
+      }
     
       const onItemClick = (option) => {
         inputRef.current.value=option.label ;
-      };
+      }
     
       const onSearch = (e) => {
         setSearchValue(e.target.value);
-      };
+      }
     
       const getOptions = () => {
         if (!searchValue) {
@@ -55,11 +49,10 @@ function DropDownList( { options }){
           (option) =>
             option.label.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0
         );
-      }; 
+      }
 
-    let scrollTimer = -1;
-    const scrollFunction  = () =>{
-
+    const scrollFunction  = () => {
+      let scrollTimer = -1;
       listRef.current.classList.add("is-scrolling");
         if (scrollTimer !== -1)
         clearTimeout(scrollTimer);
@@ -98,10 +91,10 @@ function DropDownList( { options }){
    
    return(
     <div className="container" onClick={handler}>
-     <div className="inputContainer">
+     <div className="input-container">
       <input  placeholder= "type here" onChange={onSearch}  ref={inputRef} onClick={handleInputClick} onKeyDown={handleKey} />
-        <div className="icoon" >
-            <Icon />
+        <div  >
+            <img src={Arrow} className={showMenu ? 'arrow-up' : 'arrow-down'} onClick={handleInputClick}/>
          </div>
          {showMenu && (
         <div ref={listRef} className="list" onScroll={scrollFunction} >
