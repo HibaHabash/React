@@ -4,17 +4,16 @@ import Arrow from '../../assets/images/Arrow-down.svg'
 
  const List = ( options ) =>{
  
-   
+  
+
    return(
     <div className="container">
      <div className="input-container">
-      <input  placeholder= "type here"   />
-        <div  >
-            <img src={Arrow} className={showMenu ? 'arrow-up' : 'arrow-down'} />
-         </div>
+      <input  placeholder= "type here" />
+            <img src={Arrow} className={ options ? 'arrow-up' : 'arrow-down'} />
          { (
-        <div className="list"  >
-          {getOptions().map((option,i) => (
+        <div className="list" >
+          {/* {getOptions().map((option,i) => (
             <div
               id={i}
               tabIndex={0}
@@ -23,7 +22,7 @@ import Arrow from '../../assets/images/Arrow-down.svg'
             >
               {option.label}
             </div>
-          ))}
+          ))} */}
         </div>
       )}
       </div>  

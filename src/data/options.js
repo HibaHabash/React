@@ -1,4 +1,4 @@
-export  const options = [
+export const options = [
     { value: "Afghanistan", label: "Afghanistan" },
     { value: "Albania", label: "Albania" },
     { value: "Algeria", label: "Algeria" },

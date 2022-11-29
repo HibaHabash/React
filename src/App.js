@@ -1,6 +1,6 @@
 import List from './components/List';
 import React from 'react';
-import options from './data/options';
+import {options} from './data/options';
 
 function App() {
 

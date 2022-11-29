@@ -1,7 +1,6 @@
 @mixin icon {
-    position: absolute;
-    top: 33%;
-    left: 70%;
+    position: relative;
+    right: 30px;
     color: #6a687e;
     cursor: pointer;
     height: 20px;
@@ -15,18 +14,19 @@
     font-size: 20px;
     text-align: left;
   }
+
   .container {
-  width: 1000px;
+  position: relative;
+    top: 250px;
+    left: 150px;
   }
 
   .input-container {
     padding: 5px;
   
     input {
-      width: 40%;
-      position: absolute;
-      top: 30%;
-      left: 30%;
+      width: 400px;
+      margin-left: 300px;
       border-radius: 5px;
       border-style: solid;
       border-color: #eaecf2;
@@ -53,28 +53,16 @@
     }
   }
   .list {
-    width: 41%;
+    width: 400px;
     position: absolute;
-    top: 38%;
-    left: 30.3%;
+    top: 65px;
+    left: 315px;
     margin-top: 5px;
     border-radius: 5px;
     background-color: white;
     border: 3px solid #eaecf2;
     max-height: 170px;
     overflow: auto;
-  
-    &::-webkit-scrollbar {
-      width: 15px;
-    }
-    &::-webkit-scrollbar-thumb {
-      border-radius: 10px;
-      background: transparent;
-      box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
-    }
-    &.is-scrolling::-webkit-scrollbar-thumb {
-      background: #747474;
-    }
   }
   .dropdown-item {
     @include drop-item;
@@ -83,6 +71,4 @@
       background-color: #ececec;
     }
   }
-  .item {
-    background-color: #ececec;
-  }
+ 
