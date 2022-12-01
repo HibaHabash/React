@@ -1,12 +1,15 @@
 import React, { useRef, useState } from 'react';
 import './style.scss';
 import Arrow from '../../assets/images/Arrow-down.svg';
+import { useOnClickOutside } from 'usehooks-ts';
 
 const List = ({ options }) => {
     const listRef = useRef();
-    const [State, setState] = useState({
+    const [state, setState] = useState({
+        selected: false,
         showMenu: false,
         searchValue: '',
+        inputValue: '',
     });
 
     const handleInputClick = (e) => {
@@ -14,6 +17,15 @@ const List = ({ options }) => {
         setState((prevState) => ({
             ...prevState,
             showMenu: !prevState.showMenu,
+        }));
+    };
+
+    const choosedItem = (option) => {
+        setState((prevState) => ({
+            ...prevState,
+            selected: true,
+            showMenu: !prevState.showMenu,
+            inputValue: option.label,
         }));
     };
 
@@ -25,7 +37,7 @@ const List = ({ options }) => {
     };
 
     const getOptions = () => {
-        if (!State.searchValue) {
+        if (!state.searchValue) {
             return options;
         }
 
@@ -33,30 +45,46 @@ const List = ({ options }) => {
             (option) =>
                 option.label
                     .toLowerCase()
-                    .indexOf(State.searchValue.toLowerCase()) >= 0
+                    .indexOf(state.searchValue.toLowerCase()) >= 0
         );
     };
 
+    const handleClickOutside = () => {
+        setState((prevState) => ({
+            ...prevState,
+            showMenu: false,
+        }));
+    };
+
+    useOnClickOutside(listRef, handleClickOutside);
+
     return (
-        <div className="menu-container">
+        <div className="menu-container" ref={listRef}>
             <div className="input-container" onClick={handleInputClick}>
                 <input
                     onChange={onSearch}
-                    placeholder={State.showMenu ? 'select' : 'type here'}
+                    placeholder={
+                        state.showMenu
+                            ? 'select'
+                            : state.selected
+                            ? state.inputValue
+                            : 'type here'
+                    }
                 />
                 <img
                     src={Arrow}
-                    className={`arrow-down ${State.showMenu ? 'arrow-up' : ''}`}
+                    className={`arrow-down ${state.showMenu ? 'arrow-up' : ''}`}
                 />
             </div>
-            {State.showMenu && (
-                <div className="list" ref={listRef}>
+            {state.showMenu && (
+                <div className="list">
                     {getOptions().map((option, i) => (
                         <div
                             id={i}
                             tabIndex={0}
                             key={option.value}
                             className="menu-item"
+                            onClick={() => choosedItem(option)}
                         >
                             {option.label}
                         </div>
