@@ -10,6 +10,7 @@ const List = ({ options }) => {
         showMenu: false,
         searchValue: '',
         inputValue: '',
+        focusedItem: 0,
     });
 
     const handleInputClick = (e) => {
@@ -49,6 +50,43 @@ const List = ({ options }) => {
         );
     };
 
+    const handleKeydown = (event) => {
+        switch (event.key) {
+            case 'ArrowUp': {
+                if (state.focusedItem > 1) {
+                    setState((prevState) => ({
+                        ...prevState,
+                        focusedItem: prevState.focusedItem - 1,
+                    }));
+                    document.getElementById(state.focusedItem - 2).focus();
+                    break;
+                } else break;
+            }
+            case 'ArrowDown': {
+                if (state.focusedItem < options.length) {
+                    setState((prevState) => ({
+                        ...prevState,
+                        focusedItem: prevState.focusedItem + 1,
+                    }));
+                    document.getElementById(state.focusedItem).focus();
+                    break;
+                } else break;
+            }
+            case 'Enter': {
+                setState((prevState) => ({
+                    ...prevState,
+                    selected: true,
+                    showMenu: !prevState.showMenu,
+                    inputValue: options[state.focusedItem - 1].label,
+                }));
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+    };
+
     const handleClickOutside = () => {
         setState((prevState) => ({
             ...prevState,
@@ -62,6 +100,7 @@ const List = ({ options }) => {
         <div className="menu-container" ref={listRef}>
             <div className="input-container" onClick={handleInputClick}>
                 <input
+                    onKeyDown={handleKeydown}
                     onChange={onSearch}
                     placeholder={
                         state.showMenu
@@ -78,13 +117,14 @@ const List = ({ options }) => {
             </div>
             {state.showMenu && (
                 <div className="list">
-                    {getOptions().map((option, i) => (
+                    {getOptions().map((option, index) => (
                         <div
-                            id={i}
+                            id={index}
                             tabIndex={0}
                             key={option.value}
                             className="menu-item"
                             onClick={() => choosedItem(option)}
+                            onKeyDown={() => handleKeydown(event)}
                         >
                             {option.label}
                         </div>

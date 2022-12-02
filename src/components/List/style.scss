@@ -46,6 +46,11 @@
     border: 3px solid #eaecf2;
     max-height: 170px;
     overflow: auto;
+
+    div:focus {
+        background-color: #ececec;
+        outline: none;
+    }
 }
 .menu-item {
     color: black;
