@@ -13,14 +13,15 @@ const List = ({ options }) => {
     });
 
     const handleInputClick = () => {
-        setState((prevState) => ({
-            showMenu: !prevState.showMenu,
-            items: options,
+        setState(() => ({
+            ...state,
+            showMenu: !state.showMenu,
         }));
     };
 
     const choosedItem = (option) => {
         setState((prevState) => ({
+            ...state,
             selectedValue: option.label,
             showMenu: !prevState.showMenu,
         }));
@@ -28,6 +29,8 @@ const List = ({ options }) => {
 
     const onSearch = (e) => {
         setState(() => ({
+            ...state,
+            showMenu: true,
             items: options.filter(
                 (option) =>
                     option.label
@@ -43,25 +46,29 @@ const List = ({ options }) => {
         switch (event.key) {
             case 'ArrowUp': {
                 if (state.focusedItem > 1) {
-                    setState((prevState) => ({
-                        focusedItem: prevState.focusedItem - 1,
+                    setState(() => ({
+                        ...state,
+                        focusedItem: state.focusedItem - 1,
                     }));
                     document.getElementById(state.focusedItem - 2).focus();
                     break;
                 } else break;
             }
             case 'ArrowDown': {
+                console.log(state.focusedItem);
                 if (state.focusedItem < options.length) {
-                    setState((prevState) => ({
-                        focusedItem: prevState.focusedItem + 1,
+                    setState(() => ({
+                        ...state,
+                        focusedItem: state.focusedItem + 1,
                     }));
                     document.getElementById(state.focusedItem).focus();
                     break;
                 } else break;
             }
             case 'Enter': {
-                setState((prevState) => ({
-                    showMenu: !prevState.showMenu,
+                setState(() => ({
+                    ...state,
+                    showMenu: !state.showMenu,
                     selectedValue: options[state.focusedItem - 1].label,
                 }));
                 break;
@@ -74,6 +81,7 @@ const List = ({ options }) => {
 
     const handleClickOutside = () => {
         setState(() => ({
+            ...state,
             showMenu: false,
         }));
     };
